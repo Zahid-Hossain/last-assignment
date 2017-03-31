@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Date picker</title>
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/jquery-ui.css" rel="stylesheet">
+    
+    
+ </head>
+ <body>
+     
+     <div class="container">
+     
+     
+     
+     
+<!--     birth date -->
+    
+     <div class="col-sm-4">
+        
+         <form>
+            <p><b>Birth date :</b></p>
+             <input type="text" name="date" id="datepicker">
+         </form>
+     
+     </div>
+     
+     
+<!--     background color change -->
+    
+     <div class="col-sm-4 back">
+         <span>Background : </span><select name="" id="list">
+             <option value="#aac4ef">Sky blue</option>
+             <option value="#fff">White</option>
+             <option value="#8defea">Green</option>
+             <option value="#d7ea9d">Yellow</option>
+             <option value="#eabb9d">Muddy</option>
+         </select>
+     </div>
+     
+     
+     <!--     password strength  -->
+     
+     <div class="col-sm-4 stren">
+         password : <input type="password" name=" " id="status"> <span class="first"></span>
+     </div>
+    
+<!--     weather search -->
+       
+     <div class="weather-box">
+         <h3 id="city"> City </h3>
+         <h1 id="country"> Country </h1>
+         <h4><span  id="temp">00</span> <sup>0</sup>C</h4>
+         
+         <ul class="list-inline">
+            <li><input type="text" name="info" class="from-control" id="city-control"></li>
+            <li> <button type="button" class="btn btn-danger">City weather </button> </li>
+         </ul>
+         <button class="btn btn-success" id="fb_share">Share on fb</button>
+         
+     </div>
+     
+
+     </div>
+     
+     
+     
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    
+    <script>
+        
+         // date picker
+        
+        $(function(){
+            
+            $("#datepicker").datepicker();
+            $("#datepicker").draggable();
+            
+            
+        });
+        
+        // weather update
+        
+        $(function(){
+            
+            $("button").click(function(){
+                
+                var city_name = $("#city-control").val();
+                GoWeather(city_name);
+            });
+            
+            
+          function GoWeather(city_name){
+             $.ajax({
+                url:"http://api.apixu.com/v1/current.json?key=1078a2cbb6e54de4b48152024172503&q="+city_name,
+                dataType:"json",
+                success:function(data){
+                    
+                        $("#city").text(data.location.name);
+                        $("#country").text(data.location.country);
+                        $("#temp").text(data.current.temp_c);
+                         
+                        $("#fb_share").click(function(){
+                            fb_shares();
+                        });
+                    
+                },
+                 error:function(){
+                     alert("There is no country of this name")
+                 }
+                 
+            })
+             
+          }
+            
+            
+          
+        });
+        
+        // change background color
+        
+        $(function(){
+            
+            var color = $("#list").val();
+            $("body").css("background",color);
+            
+           $("#list").change(function(){
+               var color = $("#list").val();
+               $("body").css("background",color);
+           });
+            
+        });
+        
+        
+      //  password strength
+        
+        $(function(){
+            $("#status").keyup(function(){
+                var len = $("#status").val().length;
+                
+                if(len < 1){
+                    $(".first").text(" ");
+                    $(".first").removeClass("red");
+                }
+                
+                
+                else if(len <= 4){
+                    $(".first").text("weak");
+                    $(".first").addClass("red");
+                    $(".first").removeClass("orange");
+                    
+                }
+                
+                else if(len <= 8){
+                        $(".first").text("good");
+                        $(".first").addClass("orange");
+                        $(".first").removeClass("red");
+                        $(".first").removeClass("green");
+                }
+                
+                else if (len > 8){
+                    $(".first").text("strong");
+                    $(".first").addClass("green");
+                    $(".first").removeClass("red");
+                    $(".first").removeClass("orange");
+                }
+                
+            });
+        });
+        
+     </script>
+    
+ </body>
+</html>

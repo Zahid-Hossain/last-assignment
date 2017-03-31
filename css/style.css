@@ -1,0 +1,35 @@
+.weather-box{
+ position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border: 1px solid;
+    text-align: center;
+    padding: 40px;
+    background: #B2BEB5 ;
+}
+
+.back{
+    padding: 20px;
+}
+.stren{
+    padding: 20px;
+}
+
+.red{
+    color: #fff;
+    background: red;
+    padding: 10px 20px;
+}
+
+.orange{
+    color: #fff;
+    background: orange;
+    padding: 10px 20px;
+}
+
+.green{
+    color: #fff;
+    background: green;
+    padding: 10px 20px;
+}
